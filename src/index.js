@@ -26,7 +26,12 @@ async function retrieveHero(num) {
         
         heroObject.health = heroObject.powerstats.strength * 100;
         heroObject.timeToHit = (100 - heroObject.powerstats.speed) * 10;
+        if (heroObject.timeToHit <= 175) heroObject.timeToHit = 175;
         heroObject.damagePerHit = parseInt(heroObject.powerstats.strength) * 2 + parseInt(heroObject.powerstats.combat) * 3 + parseInt(heroObject.powerstats.power)
+
+        // set heroObject.damagePerHit to be a random number between -10% and 10% of the heroObject.damagePerHit
+
+
         heroes.push(heroObject)
         console.log(heroObject)
     }
