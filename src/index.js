@@ -23,7 +23,7 @@ async function retrieveHero(num) {
         if (heroObject.powerstats.combat === "null") heroObject.powerstats.combat = 25;
         if (heroObject.powerstats.power === "null") heroObject.powerstats.power = 25;
         if (heroObject.powerstats.speed === "null") heroObject.powerstats.speed = 25;
-        
+
         heroObject.health = heroObject.powerstats.strength * 100;
         heroObject.timeToHit = (100 - heroObject.powerstats.speed) * 10;
         if (heroObject.timeToHit <= 175) heroObject.timeToHit = 175;
@@ -75,21 +75,54 @@ function setupFight() {
     startScreen.style.display = "none"
     playerBox.style.display = "inline-block"
     computerBox.style.display = "inline-block"
-    playerBox.innerHTML = `<h1>PLAYER</h1><br><h2>${playerHero.name}<span id="playerHealthSpan"></span></h2><img src="${playerHero.image.url}" alt="${playerHero.name}">`
-    computerBox.innerHTML = `<h1>COMPUTER</h2><br><h2>${computerHero.name}</h2><img src="${computerHero.image.url}" alt="${computerHero.name}">`
+    playerBox.innerHTML = `<h1>PLAYER</h1>
+        <br>
+        <h2>${playerHero.name}</h2>
+        <br>
+        <h3 id="playerHealthSpan"></h3>
+        <br>
+        <span id="playerStrength">STRENGTH: ${playerHero.powerstats.strength}</span>
+        <br><span id="playerCombat">COMBAT: ${playerHero.powerstats.combat}</span>
+        <br>
+        <span id="playerPower">POWER: ${playerHero.powerstats.power}</span>
+        <br>
+        <span id="playerSpeed">SPEED: ${playerHero.powerstats.speed}</span><br>
+        <img src="${playerHero.image.url}" alt="${playerHero.name}">`
+    computerBox.innerHTML = `<h1>COMPUTER</h1>
+        <br>
+        <h2>${computerHero.name}</h2>
+        <br>
+        <h3 id="computerHealthSpan"></h3>
+        <br>
+        <span id="computerStrength">STRENGTH: ${computerHero.powerstats.strength}</span>
+        <br>
+        <span id="computerCombat">COMBAT: ${computerHero.powerstats.combat}</span>
+        <br>
+        <span id="computerPower">POWER: ${computerHero.powerstats.power}</span>
+        <br>
+        <span id="computerSpeed">SPEED: ${computerHero.powerstats.speed}</span><br>
+        <img src="${computerHero.image.url}" alt="${computerHero.name}">`
     fightScreen.innerHTML = `<button id="fight-btn">Fight!</button><br>` + fightScreen.innerHTML;
     const fightBtn = document.querySelector("#fight-btn")
+    const playerHealthSpan = document.querySelector("#playerHealthSpan")
+    const computerHealthSpan = document.querySelector("#computerHealthSpan")
+    playerHealthSpan.innerHTML = `<br>HP: ${playerHero.health}`
+    computerHealthSpan.innerHTML = `<br>HP: ${computerHero.health}`
     fightBtn.addEventListener("click", combat)
 }
 
 function combat() {
+    const fightBtn = document.querySelector("#fight-btn")
     combatInProgress = true;
+    fightBtn.disabled = true;
     playerFighting = setInterval(playerAttack, playerHero.timeToHit)
     computerFighting = setInterval(computerAttack, computerHero.timeToHit)
 }
 
 function playerAttack() {
+    const computerHealthSpan = document.querySelector("#computerHealthSpan")
     computerHero.health -= playerHero.damagePerHit;
+    computerHealthSpan.innerHTML = `<br>HP: ${computerHero.health}`
     console.log(`${playerHero.name} hits ${computerHero.name}!`)
     console.log(`${computerHero.name} has ${computerHero.health} health left!`)
     if (computerHero.health <= 0 || playerHero.health <= 0) combatInProgress = false;
@@ -101,7 +134,9 @@ function playerAttack() {
 }
 
 function computerAttack() {
+    const playerHealthSpan = document.querySelector("#playerHealthSpan")
     playerHero.health -= computerHero.damagePerHit
+    playerHealthSpan.innerHTML = `<br>HP: ${playerHero.health}`
     console.log(`${computerHero.name} hits ${playerHero.name}!`)
     console.log(`${playerHero.name} has ${playerHero.health} health left!`)
     if (computerHero.health <= 0 || playerHero.health <= 0) combatInProgress = false;
