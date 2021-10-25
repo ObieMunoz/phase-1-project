@@ -31,7 +31,6 @@ async function retrieveHero(num) {
 
         // set heroObject.damagePerHit to be a random number between -10% and 10% of the heroObject.damagePerHit
 
-
         heroes.push(heroObject)
         console.log(heroObject)
     }
@@ -72,9 +71,12 @@ function selectHero(e, newHeroObject, index) {
 }
 
 function setupFight() {
+    const combatLog = document.querySelector("#combat-log")
     startScreen.style.display = "none"
     playerBox.style.display = "inline-block"
     computerBox.style.display = "inline-block"
+    combatLog.style.display = "inline-block"
+    combatLog.style.
     playerBox.innerHTML = `<h1>PLAYER</h1>
         <br>
         <h2>${playerHero.name}</h2>
@@ -123,8 +125,20 @@ function playerAttack() {
     const computerHealthSpan = document.querySelector("#computerHealthSpan")
     computerHero.health -= playerHero.damagePerHit;
     computerHealthSpan.innerHTML = `<br>HP: ${computerHero.health}`
+
+    const combatLog = document.querySelector("#combat-log")
+
+    const newCombatItem1 = document.createElement("p")
+    const newCombatItem2 = document.createElement("p")
+
+    newCombatItem1.innerHTML = `<strong>${playerHero.name}</strong> hits <strong>${computerHero.name}</strong>!`
+    newCombatItem2.innerHTML = `<strong>${computerHero.name}</strong> has ${computerHero.health} health left!`
+
+    combatLog.prepend(newCombatItem2, newCombatItem1)
+
     console.log(`${playerHero.name} hits ${computerHero.name}!`)
     console.log(`${computerHero.name} has ${computerHero.health} health left!`)
+    
     if (computerHero.health <= 0 || playerHero.health <= 0) combatInProgress = false;
     if (!combatInProgress) {
         clearInterval(playerFighting)
@@ -137,8 +151,19 @@ function computerAttack() {
     const playerHealthSpan = document.querySelector("#playerHealthSpan")
     playerHero.health -= computerHero.damagePerHit
     playerHealthSpan.innerHTML = `<br>HP: ${playerHero.health}`
+
+    const combatLog = document.querySelector("#combat-log")
+    const newCombatItem1 = document.createElement("p")
+    const newCombatItem2 = document.createElement("p")
+
+    newCombatItem1.innerHTML = `<strong>${computerHero.name}</strong> hits <strong>${playerHero.name}</strong>!`
+    newCombatItem2.innerHTML = `<strong>${playerHero.name}</strong> has ${playerHero.health} health left!`
+    
+    combatLog.prepend(newCombatItem2, newCombatItem1)
+    
     console.log(`${computerHero.name} hits ${playerHero.name}!`)
     console.log(`${playerHero.name} has ${playerHero.health} health left!`)
+    
     if (computerHero.health <= 0 || playerHero.health <= 0) combatInProgress = false;
     if (!combatInProgress) {
         clearInterval(playerFighting)
