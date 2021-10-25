@@ -76,7 +76,6 @@ function setupFight() {
     playerBox.style.display = "inline-block"
     computerBox.style.display = "inline-block"
     combatLog.style.display = "inline-block"
-    combatLog.style.
     playerBox.innerHTML = `<h1>PLAYER</h1>
         <br>
         <h2>${playerHero.name}</h2>
