@@ -29,11 +29,12 @@ function displayChoices(heroes) {
         newHero.src = heroes[i].image.url;
         newHero.className = 'hero'
         newHero.style.borderRadius = "50%"
+        newHero.onerror = function() {
+            this.remove()
+            retrieveHero(1)
+        }
         newHero.addEventListener("click", (e) => selectHero(e, newHeroObject, i))
         starterBox.append(newHero)
-        if (newHero.src.includes("404")) {
-            newHero.remove()
-        }
     }
 }
 
