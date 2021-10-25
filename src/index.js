@@ -1,10 +1,10 @@
 const heroes = []
-const starterBox = document.querySelector("#starter-choices")
-const startScreen = document.querySelector("#start-screen")
-const playerBox = document.querySelector("#fs-player")
-const computerBox = document.querySelector("#fs-computer")
-const fightScreen = document.querySelector("#fight-screen")
 
+
+let fightBtn;
+let resetBtn;
+let playerHealthSpan;
+let computerHealthSpan;
 let playerHero;
 let computerHero;
 let combatInProgress;
@@ -38,6 +38,7 @@ async function retrieveHero(num) {
 }
 
 function displayChoices(heroes) {
+    let starterBox = document.querySelector("#starter-choices")
     starterBox.replaceChildren();
     for (let i = 0; i < heroes.length; i++) {
         let newHeroObject = heroes[i];
@@ -51,11 +52,11 @@ function displayChoices(heroes) {
         newHero.onerror = function () {
             this.remove()
             heroes.splice(i, 1)
-            if (heroes.length < 5) {
-                retrieveHero(5 - heroes.length)
-                console.log(`Retrieving ${5 - heroes.length} new heroes`)
-            }
-        }
+        }   
+    }
+    if (heroes.length < 5) {
+        retrieveHero(5 - heroes.length)
+        console.log(`Retrieving ${5 - heroes.length} new heroes`)
     }
 }
 
@@ -71,6 +72,10 @@ function selectHero(e, newHeroObject, index) {
 }
 
 function setupFight() {
+    let startScreen = document.querySelector("#start-screen")
+    let playerBox = document.querySelector("#fs-player")
+    let computerBox = document.querySelector("#fs-computer")
+    let fightScreen = document.querySelector("#fight-screen")
     const combatLog = document.querySelector("#combat-log")
     startScreen.style.display = "none"
     playerBox.style.display = "inline-block"
@@ -103,13 +108,15 @@ function setupFight() {
         <br>
         <span id="computerSpeed">SPEED: ${computerHero.powerstats.speed}</span><br>
         <img src="${computerHero.image.url}" alt="${computerHero.name}">`
-    fightScreen.innerHTML = `<button id="fight-btn">Fight!</button><br>` + fightScreen.innerHTML;
-    const fightBtn = document.querySelector("#fight-btn")
-    const playerHealthSpan = document.querySelector("#playerHealthSpan")
-    const computerHealthSpan = document.querySelector("#computerHealthSpan")
+    fightScreen.innerHTML = `<button id="fight-btn">Fight!</button><button id="reset-btn">Reset</button><br>` + fightScreen.innerHTML;
+    fightBtn = document.querySelector("#fight-btn")
+    resetBtn = document.querySelector("#reset-btn")
+    playerHealthSpan = document.querySelector("#playerHealthSpan")
+    computerHealthSpan = document.querySelector("#computerHealthSpan")
     playerHealthSpan.innerHTML = `<br>HP: ${playerHero.health}`
     computerHealthSpan.innerHTML = `<br>HP: ${computerHero.health}`
     fightBtn.addEventListener("click", combat)
+    resetBtn.addEventListener("click", resetFightScreen)
 }
 
 function combat() {
@@ -169,6 +176,19 @@ function computerAttack() {
         clearInterval(computerFighting)
         playerHero.health > computerHero.health ? console.log("Player wins!") : console.log("Computer wins!")
     }
+}
+
+function resetFightScreen() {
+    let fightScreen = document.querySelector("#fight-screen")
+    let startScreen = document.querySelector("#start-screen")
+    fightScreen.innerHTML = `<div id="fight-screen">
+    <div id="fs-player"></div>
+    <div id="fs-computer"></div>
+    <div id="combat-log"></div>
+  </div>`
+    startScreen.style.display = "block"
+    heroes.forEach(hero => hero.health = hero.powerstats.strength * 100)
+    displayChoices(heroes);
 }
 
 retrieveHero(5);
