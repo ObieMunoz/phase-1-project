@@ -7,6 +7,10 @@ let playerHero;
 let computerHero;
 let combatInProgress;
 
+function mkElement(element) {
+    return document.createElement(element)
+}
+
 async function retrieveHero(numberOfHeroes) {
     for (let i = 0; i < numberOfHeroes; i++) {
         let randomId = Math.floor(Math.random() * 731 + 1)
@@ -16,21 +20,21 @@ async function retrieveHero(numberOfHeroes) {
         const heroString = await resolved.contents;
         const heroObject = await JSON.parse(heroString);
         const powerStats = heroObject.powerstats
-        
+
         // Looks at all hero powerstats and replaces any blank values with a preset default, 25.
         Object.keys(powerStats).forEach(key => {
-            if(powerStats[key] === "null") {
+            if (powerStats[key] === "null") {
                 powerStats[key] = 25;
             }
-        }) 
+        })
 
+        // Calculate new stats that were not included through the API. These will be used for the combat function.
         heroObject.health = heroObject.powerstats.strength * 100;
         heroObject.timeToHit = (100 - heroObject.powerstats.speed) * 10;
         if (heroObject.timeToHit <= 175) heroObject.timeToHit = 175;
         heroObject.damagePerHit = parseInt(heroObject.powerstats.strength) * 2 + parseInt(heroObject.powerstats.combat) * 3 + parseInt(heroObject.powerstats.power)
 
         heroes.push(heroObject)
-        console.log(heroObject)
     }
     displayChoices(heroes)
 }
@@ -40,22 +44,27 @@ function displayChoices(heroes) {
     starterBox.replaceChildren();
     for (let i = 0; i < heroes.length; i++) {
         let newHeroObject = heroes[i];
-        newHero = document.createElement("img")
-        newHero.width = 200;
-        newHero.src = heroes[i].image.url;
-        newHero.className = 'hero'
-        newHero.style.borderRadius = "50%"
-        newHero.addEventListener("click", (e) => selectHero(e, newHeroObject, i))
+        const newHero = createHeroDisplay(heroes, i, newHeroObject);
         starterBox.append(newHero)
-        newHero.onerror = function () {
-            this.remove()
-            heroes.splice(i, 1)
-        }   
     }
-    if (heroes.length < 5) {
-        retrieveHero(5 - heroes.length)
-        console.log(`Retrieving ${5 - heroes.length} new heroes`)
+    if (starterBox.children.length < 5) {
+        retrieveHero(5 - starterBox.children.length)
+        console.log(`Retrieving ${5 - starterBox.children.length} new heroes`)
     }
+}
+
+function createHeroDisplay(heroes, i, newHeroObject) {
+    const heroDisplay = mkElement("img");
+    heroDisplay.width = 200;
+    heroDisplay.src = heroes[i].image.url;
+    heroDisplay.className = 'hero';
+    heroDisplay.style.borderRadius = "50%";
+    heroDisplay.addEventListener("click", (e) => selectHero(e, newHeroObject, i));
+    heroDisplay.onerror = function () {
+        this.remove();
+        heroes.splice(i, 1);
+    };
+    return heroDisplay;
 }
 
 function selectHero(e, newHeroObject, index) {
@@ -132,8 +141,8 @@ function playerAttack() {
 
     const combatLog = document.querySelector("#combat-log")
 
-    const newCombatItem1 = document.createElement("p")
-    const newCombatItem2 = document.createElement("p")
+    const newCombatItem1 = mkElement("p")
+    const newCombatItem2 = mkElement("p")
 
     newCombatItem1.innerHTML = `<strong>${playerHero.name}</strong> hits <strong>${computerHero.name}</strong>!`
     newCombatItem2.innerHTML = `<strong>${computerHero.name}</strong> has ${computerHero.health} health left!`
@@ -142,7 +151,7 @@ function playerAttack() {
 
     console.log(`${playerHero.name} hits ${computerHero.name}!`)
     console.log(`${computerHero.name} has ${computerHero.health} health left!`)
-    
+
     if (computerHero.health <= 0 || playerHero.health <= 0) combatInProgress = false;
     if (!combatInProgress) {
         clearInterval(playerFighting)
@@ -157,17 +166,17 @@ function computerAttack() {
     playerHealthSpan.innerHTML = `<br>HP: ${playerHero.health}`
 
     const combatLog = document.querySelector("#combat-log")
-    const newCombatItem1 = document.createElement("p")
-    const newCombatItem2 = document.createElement("p")
+    const newCombatItem1 = mkElement("p")
+    const newCombatItem2 = mkElement("p")
 
     newCombatItem1.innerHTML = `<strong>${computerHero.name}</strong> hits <strong>${playerHero.name}</strong>!`
     newCombatItem2.innerHTML = `<strong>${playerHero.name}</strong> has ${playerHero.health} health left!`
-    
+
     combatLog.prepend(newCombatItem2, newCombatItem1)
-    
+
     console.log(`${computerHero.name} hits ${playerHero.name}!`)
     console.log(`${playerHero.name} has ${playerHero.health} health left!`)
-    
+
     if (computerHero.health <= 0 || playerHero.health <= 0) combatInProgress = false;
     if (!combatInProgress) {
         clearInterval(playerFighting)
