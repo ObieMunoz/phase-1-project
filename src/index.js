@@ -1,4 +1,5 @@
 const heroes = []
+const promises = [];
 let fightButton;
 let resetButton;
 let spanPlayerHealth;
@@ -23,6 +24,8 @@ async function retrieveHero(numberOfHeroes) {
         const heroObject = await JSON.parse(heroString);
         const powerStats = heroObject.powerstats
 
+        promises.push(promise);
+
         // Looks at all hero powerstats and replaces any blank values with a preset default, 25.
         Object.keys(powerStats).forEach(key => {
             if (powerStats[key] === "null") {
@@ -35,7 +38,6 @@ async function retrieveHero(numberOfHeroes) {
         heroObject.timeToHit = (100 - heroObject.powerstats.speed) * 10;
         if (heroObject.timeToHit <= 175) heroObject.timeToHit = 175;
         heroObject.damagePerHit = parseInt(heroObject.powerstats.strength) * 2 + parseInt(heroObject.powerstats.combat) * 3 + parseInt(heroObject.powerstats.power)
-
         heroes.push(heroObject)
     }
     displayChoices(heroes)
@@ -49,10 +51,6 @@ function displayChoices(heroes) {
         const newHero = createHeroDisplay(heroes, i, newHeroObject);
         starterBox.append(newHero)
     }
-    if (starterBox.children.length < 5) {
-        retrieveHero(5 - starterBox.children.length)
-        console.log(`Retrieving ${5 - starterBox.children.length} new heroes`)
-    }
 }
 
 function createHeroDisplay(heroes, i, newHeroObject) {
@@ -63,8 +61,9 @@ function createHeroDisplay(heroes, i, newHeroObject) {
     heroDisplay.style.borderRadius = "50%";
     heroDisplay.addEventListener("click", (e) => selectHero(e, newHeroObject));
     heroDisplay.onerror = function () {
-        this.remove();
-        heroes.splice(i, 1);
+        this.src = "./assets/unnamed-hero.jpg"
+        newHeroObject.image.url = "./assets/unnamed-hero.jpg"
+        console.log("Image not found for", newHeroObject.name)
     };
     return heroDisplay;
 }
@@ -127,6 +126,8 @@ function createPlayerBox(playerBox) {
 
     playerImage.src = playerHero.image.url;
     playerImage.alt = playerHero.name;
+    playerImage.width = 440;
+    playerImage.height = 640;
 
     playerBox.append(playerHeadline, playerHeroName, playerHeroHealth, mkElement("br"), playerStrength, mkElement("br"), playerCombat, mkElement("br"), playerPower, mkElement("br"), playerSpeed, mkElement("br"), playerImage);
 }
@@ -159,6 +160,8 @@ function createComputerBox(computerBox) {
 
     computerImage.src = computerHero.image.url;
     computerImage.alt = computerHero.name;
+    computerImage.width = 440;
+    computerImage.height = 640;
 
     computerBox.append(computerHeadline, computerHeroName, computerHeroHealth, mkElement("br"), computerStrength, mkElement("br"), computerCombat, mkElement("br"), computerPower, mkElement("br"), computerSpeed, mkElement("br"), computerImage);
 }
