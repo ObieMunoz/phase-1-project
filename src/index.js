@@ -31,15 +31,19 @@ async function retrieveHero(numberOfHeroes) {
                 powerStats[key] = 25;
             }
         })
-
-        // Calculate new stats that were not included through the API. These will be used for the combat function.
-        heroObject.health = heroObject.powerstats.strength * 100;
-        heroObject.timeToHit = (100 - heroObject.powerstats.speed) * 10;
-        if (heroObject.timeToHit <= 175) heroObject.timeToHit = 175;
-        heroObject.damagePerHit = parseInt(heroObject.powerstats.strength) * 2 + parseInt(heroObject.powerstats.combat) * 3 + parseInt(heroObject.powerstats.power)
-        heroes.push(heroObject)
+        createCombatStats(heroObject);
     }
     displayChoices(heroes)
+}
+
+// Calculate new stats that were not included through the API. These will be used for the combat function.
+function createCombatStats(heroObject) {
+    heroObject.health = heroObject.powerstats.strength * 100;
+    heroObject.timeToHit = (100 - heroObject.powerstats.speed) * 10;
+    if (heroObject.timeToHit <= 175)
+        heroObject.timeToHit = 175;
+    heroObject.damagePerHit = parseInt(heroObject.powerstats.strength) * 2 + parseInt(heroObject.powerstats.combat) * 3 + parseInt(heroObject.powerstats.power);
+    return heroes.push(heroObject);
 }
 
 function displayChoices(heroes) {
@@ -90,9 +94,6 @@ function setupFight() {
     createPlayerBox(playerBox);
     createComputerBox(computerBox);
 
-    // fightScreen.innerHTML = `<button id="fight-btn">Fight!</button><button id="reset-btn">Reset</button><br>` + fightScreen.innerHTML;
-
-    // create fight-btn and reset-btn and append them to the fightScreen
     const fightButton = mkElement("button");
     fightButton.id = "fight-btn";
     fightButton.innerText = "Fight!";
@@ -138,6 +139,7 @@ function createPlayerBox(playerBox) {
     playerImage.height = 640;
 
     playerBox.append(playerHeadline, playerHeroName, playerHeroHealth, mkElement("br"), playerStrength, mkElement("br"), playerCombat, mkElement("br"), playerPower, mkElement("br"), playerSpeed, mkElement("br"), playerImage);
+
 }
 
 function createComputerBox(computerBox) {
@@ -151,6 +153,7 @@ function createComputerBox(computerBox) {
     const computerPower = mkElement("span");
     const computerSpeed = mkElement("span");
     const computerImage = mkElement("img");
+    
 
     computerHeadline.innerText = "COMPUTER" + computerWinTracker;
     computerHeadline.id = "computerHeadline"
