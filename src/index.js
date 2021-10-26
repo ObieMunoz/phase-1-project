@@ -6,6 +6,8 @@ let spanComputerHealth;
 let playerHero;
 let computerHero;
 let combatInProgress;
+let playerFighting;
+let computerFighting;
 
 function mkElement(element) {
     return document.createElement(element)
