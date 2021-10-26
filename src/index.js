@@ -1,5 +1,4 @@
 const heroes = []
-const promises = [];
 let fightButton;
 let resetButton;
 let spanPlayerHealth;
@@ -23,8 +22,6 @@ async function retrieveHero(numberOfHeroes) {
         const heroString = await resolved.contents;
         const heroObject = await JSON.parse(heroString);
         const powerStats = heroObject.powerstats
-
-        promises.push(promise);
 
         // Looks at all hero powerstats and replaces any blank values with a preset default, 25.
         Object.keys(powerStats).forEach(key => {
@@ -59,7 +56,7 @@ function createHeroDisplay(heroes, i, newHeroObject) {
     heroDisplay.src = heroes[i].image.url;
     heroDisplay.className = 'hero';
     heroDisplay.style.borderRadius = "50%";
-    heroDisplay.addEventListener("click", (e) => selectHero(e, newHeroObject));
+    heroDisplay.addEventListener("click", () => selectHero(newHeroObject));
     heroDisplay.onerror = function () {
         this.src = "./assets/unnamed-hero.jpg"
         newHeroObject.image.url = "./assets/unnamed-hero.jpg"
@@ -68,7 +65,7 @@ function createHeroDisplay(heroes, i, newHeroObject) {
     return heroDisplay;
 }
 
-function selectHero(e, newHeroObject) {
+function selectHero(newHeroObject) {
     playerHero = newHeroObject;
     console.log(newHeroObject)
     computerHero = heroes[Math.floor(Math.random() * heroes.length)]
