@@ -235,12 +235,18 @@ function determineWinner() {
                 console.log("Player wins!")
                 playerWinTracker +="💢";
                 playerHeadline.innerText = "PLAYER" + playerWinTracker;
+                const spanComputerHealth = document.querySelector("#spanComputerHealthS")
+                spanComputerHealth.innerText = "KIA";
+                spanComputerHealth.style.color = "red";
                 break;
             case false:
                 const computerHeadline = document.querySelector("#computerHeadline")
                 console.log("Computer wins!")
                 computerWinTracker +="💢";
                 computerHeadline.innerText = "COMPUTER" + computerWinTracker;
+                const spanPlayerHealth = document.querySelector("#spanPlayerHealthS")
+                spanPlayerHealth.innerText = "KIA";
+                spanPlayerHealth.style.color = "red";
                 break;
         }
     }
