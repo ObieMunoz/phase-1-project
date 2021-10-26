@@ -17,6 +17,7 @@ async function retrieveHero(numberOfHeroes) {
         const heroObject = await JSON.parse(heroString);
         const powerStats = heroObject.powerstats
         
+        // Looks at all hero powerstats and replaces any blank values with a preset default, 25.
         Object.keys(powerStats).forEach(key => {
             if(powerStats[key] === "null") {
                 powerStats[key] = 25;
