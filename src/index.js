@@ -189,12 +189,7 @@ function playerAttack() {
     console.log(`${playerHero.name} hits ${computerHero.name}!`)
     console.log(`${computerHero.name} has ${computerHero.health} health left!`)
 
-    if (computerHero.health <= 0 || playerHero.health <= 0) combatInProgress = false;
-    if (!combatInProgress) {
-        clearInterval(playerFighting)
-        clearInterval(computerFighting)
-        playerHero.health > computerHero.health ? console.log("Player wins!") : console.log("Computer wins!")
-    }
+    determineWinner();
 }
 
 function computerAttack() {
@@ -214,12 +209,16 @@ function computerAttack() {
     console.log(`${computerHero.name} hits ${playerHero.name}!`)
     console.log(`${playerHero.name} has ${playerHero.health} health left!`)
 
-    if (computerHero.health <= 0 || playerHero.health <= 0) combatInProgress = false;
-    if (!combatInProgress) {
+    determineWinner();
+}
+
+function determineWinner() {
+    if (playerHero.health <= 0 || computerHero.health <= 0) {
+        combatInProgress = false;
         clearInterval(playerFighting)
         clearInterval(computerFighting)
-        playerHero.health > computerHero.health ? console.log("Player wins!") : console.log("Computer wins!")
     }
+    playerHero.health > computerHero.health ? console.log("Player wins!") : console.log("Computer wins!")
 }
 
 function resetFightScreen() {
