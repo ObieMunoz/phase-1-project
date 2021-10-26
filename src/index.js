@@ -87,45 +87,80 @@ function setupFight() {
     let fightScreen = document.querySelector("#fight-screen")
     const combatLog = document.querySelector("#combat-log")
     startScreen.style.display = "none"
-    playerBox.style.display = "inline-block"
-    computerBox.style.display = "inline-block"
     combatLog.style.display = "inline-block"
-    playerBox.innerHTML = `<h1>PLAYER</h1>
-        <br>
-        <h2>${playerHero.name}</h2>
-        <br>
-        <h3 id="playerHealthSpan"></h3>
-        <br>
-        <span id="playerStrength">STRENGTH: ${playerHero.powerstats.strength}</span>
-        <br><span id="playerCombat">COMBAT: ${playerHero.powerstats.combat}</span>
-        <br>
-        <span id="playerPower">POWER: ${playerHero.powerstats.power}</span>
-        <br>
-        <span id="playerSpeed">SPEED: ${playerHero.powerstats.speed}</span><br>
-        <img src="${playerHero.image.url}" alt="${playerHero.name}">`
-    computerBox.innerHTML = `<h1>COMPUTER</h1>
-        <br>
-        <h2>${computerHero.name}</h2>
-        <br>
-        <h3 id="spanComputerHealth"></h3>
-        <br>
-        <span id="computerStrength">STRENGTH: ${computerHero.powerstats.strength}</span>
-        <br>
-        <span id="computerCombat">COMBAT: ${computerHero.powerstats.combat}</span>
-        <br>
-        <span id="computerPower">POWER: ${computerHero.powerstats.power}</span>
-        <br>
-        <span id="computerSpeed">SPEED: ${computerHero.powerstats.speed}</span><br>
-        <img src="${computerHero.image.url}" alt="${computerHero.name}">`
+
+    createPlayerBox(playerBox);
+    createComputerBox(computerBox);
+
     fightScreen.innerHTML = `<button id="fight-btn">Fight!</button><button id="reset-btn">Reset</button><br>` + fightScreen.innerHTML;
     fightButton = document.querySelector("#fight-btn")
     resetButton = document.querySelector("#reset-btn")
-    spanPlayerHealth = document.querySelector("#playerHealthSpan")
-    spanComputerHealth = document.querySelector("#spanComputerHealth")
-    spanPlayerHealth.innerHTML = `<br>HP: ${playerHero.health}`
-    spanComputerHealth.innerHTML = `<br>HP: ${computerHero.health}`
     fightButton.addEventListener("click", combat)
     resetButton.addEventListener("click", resetFightScreen)
+}
+
+function createPlayerBox(playerBox) {
+    playerBox.style.display = "inline-block"    
+    const playerHeadline = mkElement("h1");
+    const playerHeroName = mkElement("h2");
+    const playerHeroHealth = mkElement("h3");
+    const playerHeroHealthS = mkElement("span");
+    const playerStrength = mkElement("span");
+    const playerCombat = mkElement("span");
+    const playerPower = mkElement("span");
+    const playerSpeed = mkElement("span");
+    const playerImage = mkElement("img");
+
+    playerHeadline.innerText = "PLAYER";
+    playerHeroName.innerText = playerHero.name;
+
+    playerHeroHealth.id = "spanPlayerHealth";
+    playerHeroHealth.innerText = "HP: ";
+    playerHeroHealthS.innerText = playerHero.health;
+    playerHeroHealthS.id = "spanPlayerHealthS";
+    playerHeroHealth.append(playerHeroHealthS);
+
+    playerStrength.innerText = "STRENGTH: " + playerHero.powerstats.strength;
+    playerCombat.innerText = "COMBAT: " + playerHero.powerstats.combat;
+    playerPower.innerText = "POWER: " + playerHero.powerstats.power;
+    playerSpeed.innerText = "SPEED: " + playerHero.powerstats.speed;
+
+    playerImage.src = playerHero.image.url;
+    playerImage.alt = playerHero.name;
+
+    playerBox.append(playerHeadline, playerHeroName, playerHeroHealth, mkElement("br"), playerStrength, mkElement("br"), playerCombat, mkElement("br"), playerPower, mkElement("br"), playerSpeed, mkElement("br"), playerImage);
+}
+
+function createComputerBox(computerBox) {
+    computerBox.style.display = "inline-block"
+    const computerHeadline = mkElement("h1");
+    const computerHeroName = mkElement("h2");
+    const computerHeroHealth = mkElement("h3");
+    const computerHeroHealthS = mkElement("span");
+    const computerStrength = mkElement("span");
+    const computerCombat = mkElement("span");
+    const computerPower = mkElement("span");
+    const computerSpeed = mkElement("span");
+    const computerImage = mkElement("img");
+
+    computerHeadline.innerText = "COMPUTER";
+    computerHeroName.innerText = computerHero.name;
+
+    computerHeroHealth.id = "spanComputerHealth";
+    computerHeroHealth.innerText = "HP: ";
+    computerHeroHealthS.innerText = computerHero.health;
+    computerHeroHealthS.id = "spanComputerHealthS";
+    computerHeroHealth.append(computerHeroHealthS);
+
+    computerStrength.innerText = "STRENGTH: " + computerHero.powerstats.strength;
+    computerCombat.innerText = "COMBAT: " + computerHero.powerstats.combat;
+    computerPower.innerText = "POWER: " + computerHero.powerstats.power;
+    computerSpeed.innerText = "SPEED: " + computerHero.powerstats.speed;
+
+    computerImage.src = computerHero.image.url;
+    computerImage.alt = computerHero.name;
+
+    computerBox.append(computerHeadline, computerHeroName, computerHeroHealth, mkElement("br"), computerStrength, mkElement("br"), computerCombat, mkElement("br"), computerPower, mkElement("br"), computerSpeed, mkElement("br"), computerImage);
 }
 
 function combat() {
@@ -137,9 +172,9 @@ function combat() {
 }
 
 function playerAttack() {
-    const spanComputerHealth = document.querySelector("#spanComputerHealth")
+    const spanComputerHealth = document.querySelector("#spanComputerHealthS")
     computerHero.health -= playerHero.damagePerHit;
-    spanComputerHealth.innerHTML = `<br>HP: ${computerHero.health}`
+    spanComputerHealth.innerText = computerHero.health;
 
     const combatLog = document.querySelector("#combat-log")
 
@@ -163,9 +198,9 @@ function playerAttack() {
 }
 
 function computerAttack() {
-    const playerHealthSpan = document.querySelector("#playerHealthSpan")
+    const spanPlayerHealth = document.querySelector("#spanPlayerHealthS")
     playerHero.health -= computerHero.damagePerHit
-    playerHealthSpan.innerHTML = `<br>HP: ${playerHero.health}`
+    spanPlayerHealth.innerText = playerHero.health;
 
     const combatLog = document.querySelector("#combat-log")
     const newCombatItem1 = mkElement("p")
