@@ -8,6 +8,8 @@ let computerHero;
 let combatInProgress;
 let playerFighting;
 let computerFighting;
+let playerWinTracker = " ";
+let computerWinTracker = " ";
 
 function mkElement(element) {
     return document.createElement(element)
@@ -107,7 +109,7 @@ function createPlayerBox(playerBox) {
     const playerSpeed = mkElement("span");
     const playerImage = mkElement("img");
 
-    playerHeadline.innerText = "PLAYER";
+    playerHeadline.innerText = "PLAYER" + playerWinTracker;
     playerHeroName.innerText = playerHero.name;
 
     playerHeroHealth.id = "spanPlayerHealth";
@@ -141,7 +143,7 @@ function createComputerBox(computerBox) {
     const computerSpeed = mkElement("span");
     const computerImage = mkElement("img");
 
-    computerHeadline.innerText = "COMPUTER";
+    computerHeadline.innerText = "COMPUTER" + computerWinTracker;
     computerHeroName.innerText = computerHero.name;
 
     computerHeroHealth.id = "spanComputerHealth";
@@ -217,8 +219,9 @@ function determineWinner() {
         combatInProgress = false;
         clearInterval(playerFighting)
         clearInterval(computerFighting)
+        playerHero.health > computerHero.health ? console.log("Player wins!") : console.log("Computer wins!")
+        playerHero.health > computerHero.health ? playerWinTracker +="✔️" : computerWinTracker +="✔️"
     }
-    playerHero.health > computerHero.health ? console.log("Player wins!") : console.log("Computer wins!")
 }
 
 function resetFightScreen() {
