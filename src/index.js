@@ -61,7 +61,7 @@ function createHeroDisplay(heroes, i, newHeroObject) {
     heroDisplay.src = heroes[i].image.url;
     heroDisplay.className = 'hero';
     heroDisplay.style.borderRadius = "50%";
-    heroDisplay.addEventListener("click", (e) => selectHero(e, newHeroObject, i));
+    heroDisplay.addEventListener("click", (e) => selectHero(e, newHeroObject));
     heroDisplay.onerror = function () {
         this.remove();
         heroes.splice(i, 1);
@@ -69,7 +69,7 @@ function createHeroDisplay(heroes, i, newHeroObject) {
     return heroDisplay;
 }
 
-function selectHero(e, newHeroObject, index) {
+function selectHero(e, newHeroObject) {
     playerHero = newHeroObject;
     console.log(newHeroObject)
     computerHero = heroes[Math.floor(Math.random() * heroes.length)]
