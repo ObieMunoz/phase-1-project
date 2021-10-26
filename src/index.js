@@ -220,7 +220,7 @@ function determineWinner() {
         clearInterval(playerFighting)
         clearInterval(computerFighting)
         playerHero.health > computerHero.health ? console.log("Player wins!") : console.log("Computer wins!")
-        playerHero.health > computerHero.health ? playerWinTracker +="✔️" : computerWinTracker +="✔️"
+        playerHero.health > computerHero.health ? playerWinTracker +="💢" : computerWinTracker +="💢"
     }
 }
 
