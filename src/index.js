@@ -1,35 +1,32 @@
 const heroes = []
-
-
-let fightBtn;
-let resetBtn;
-let playerHealthSpan;
-let computerHealthSpan;
+let fightButton;
+let resetButton;
+let spanPlayerHealth;
+let spanComputerHealth;
 let playerHero;
 let computerHero;
 let combatInProgress;
 
-async function retrieveHero(num) {
-    for (let i = 0; i < num; i++) {
+async function retrieveHero(numberOfHeroes) {
+    for (let i = 0; i < numberOfHeroes; i++) {
         let randomId = Math.floor(Math.random() * 731 + 1)
         let superHeroAPI = `https://superheroapi.com/api/${API_KEY}/${randomId}`
-        const promise = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(superHeroAPI)}`)
-        const resolved = await promise.json()
+        const promise = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(superHeroAPI)}`)   // To bypass CORS errors, we need to use a proxy. All Origins works great.
+        const resolved = await promise.json();
         const heroString = await resolved.contents;
         const heroObject = await JSON.parse(heroString);
-
-        if (heroObject.powerstats.strength === "null") heroObject.powerstats.strength = 25;
-        if (heroObject.powerstats.intelligence === "null") heroObject.powerstats.intelligence = 25;
-        if (heroObject.powerstats.combat === "null") heroObject.powerstats.combat = 25;
-        if (heroObject.powerstats.power === "null") heroObject.powerstats.power = 25;
-        if (heroObject.powerstats.speed === "null") heroObject.powerstats.speed = 25;
+        const powerStats = heroObject.powerstats
+        
+        Object.keys(powerStats).forEach(key => {
+            if(powerStats[key] === "null") {
+                powerStats[key] = 25;
+            }
+        }) 
 
         heroObject.health = heroObject.powerstats.strength * 100;
         heroObject.timeToHit = (100 - heroObject.powerstats.speed) * 10;
         if (heroObject.timeToHit <= 175) heroObject.timeToHit = 175;
         heroObject.damagePerHit = parseInt(heroObject.powerstats.strength) * 2 + parseInt(heroObject.powerstats.combat) * 3 + parseInt(heroObject.powerstats.power)
-
-        // set heroObject.damagePerHit to be a random number between -10% and 10% of the heroObject.damagePerHit
 
         heroes.push(heroObject)
         console.log(heroObject)
@@ -98,7 +95,7 @@ function setupFight() {
         <br>
         <h2>${computerHero.name}</h2>
         <br>
-        <h3 id="computerHealthSpan"></h3>
+        <h3 id="spanComputerHealth"></h3>
         <br>
         <span id="computerStrength">STRENGTH: ${computerHero.powerstats.strength}</span>
         <br>
@@ -109,28 +106,28 @@ function setupFight() {
         <span id="computerSpeed">SPEED: ${computerHero.powerstats.speed}</span><br>
         <img src="${computerHero.image.url}" alt="${computerHero.name}">`
     fightScreen.innerHTML = `<button id="fight-btn">Fight!</button><button id="reset-btn">Reset</button><br>` + fightScreen.innerHTML;
-    fightBtn = document.querySelector("#fight-btn")
-    resetBtn = document.querySelector("#reset-btn")
-    playerHealthSpan = document.querySelector("#playerHealthSpan")
-    computerHealthSpan = document.querySelector("#computerHealthSpan")
-    playerHealthSpan.innerHTML = `<br>HP: ${playerHero.health}`
-    computerHealthSpan.innerHTML = `<br>HP: ${computerHero.health}`
-    fightBtn.addEventListener("click", combat)
-    resetBtn.addEventListener("click", resetFightScreen)
+    fightButton = document.querySelector("#fight-btn")
+    resetButton = document.querySelector("#reset-btn")
+    spanPlayerHealth = document.querySelector("#playerHealthSpan")
+    spanComputerHealth = document.querySelector("#spanComputerHealth")
+    spanPlayerHealth.innerHTML = `<br>HP: ${playerHero.health}`
+    spanComputerHealth.innerHTML = `<br>HP: ${computerHero.health}`
+    fightButton.addEventListener("click", combat)
+    resetButton.addEventListener("click", resetFightScreen)
 }
 
 function combat() {
-    const fightBtn = document.querySelector("#fight-btn")
+    const fightButton = document.querySelector("#fight-btn")
     combatInProgress = true;
-    fightBtn.disabled = true;
+    fightButton.disabled = true;
     playerFighting = setInterval(playerAttack, playerHero.timeToHit)
     computerFighting = setInterval(computerAttack, computerHero.timeToHit)
 }
 
 function playerAttack() {
-    const computerHealthSpan = document.querySelector("#computerHealthSpan")
+    const spanComputerHealth = document.querySelector("#spanComputerHealth")
     computerHero.health -= playerHero.damagePerHit;
-    computerHealthSpan.innerHTML = `<br>HP: ${computerHero.health}`
+    spanComputerHealth.innerHTML = `<br>HP: ${computerHero.health}`
 
     const combatLog = document.querySelector("#combat-log")
 
@@ -179,6 +176,8 @@ function computerAttack() {
 }
 
 function resetFightScreen() {
+    clearInterval(playerFighting)
+    clearInterval(computerFighting)
     let fightScreen = document.querySelector("#fight-screen")
     let startScreen = document.querySelector("#start-screen")
     fightScreen.innerHTML = `<div id="fight-screen">
