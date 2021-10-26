@@ -90,11 +90,19 @@ function setupFight() {
     createPlayerBox(playerBox);
     createComputerBox(computerBox);
 
-    fightScreen.innerHTML = `<button id="fight-btn">Fight!</button><button id="reset-btn">Reset</button><br>` + fightScreen.innerHTML;
-    fightButton = document.querySelector("#fight-btn")
-    resetButton = document.querySelector("#reset-btn")
-    fightButton.addEventListener("click", combat)
-    resetButton.addEventListener("click", resetFightScreen)
+    // fightScreen.innerHTML = `<button id="fight-btn">Fight!</button><button id="reset-btn">Reset</button><br>` + fightScreen.innerHTML;
+
+    // create fight-btn and reset-btn and append them to the fightScreen
+    const fightButton = mkElement("button");
+    fightButton.id = "fight-btn";
+    fightButton.innerText = "Fight!";
+    fightButton.addEventListener("click", combat);
+
+    const resetButton = mkElement("button");
+    resetButton.id = "reset-btn";
+    resetButton.innerText = "Reset";
+    resetButton.addEventListener("click", resetFightScreen);
+    fightScreen.prepend(fightButton, resetButton, mkElement("br"));
 }
 
 function createPlayerBox(playerBox) {
@@ -221,17 +229,21 @@ function determineWinner() {
         combatInProgress = false;
         clearInterval(playerFighting)
         clearInterval(computerFighting)
-        playerHero.health > computerHero.health ? console.log("Player wins!") : console.log("Computer wins!")
-        playerHero.health > computerHero.health ? playerWinTracker +="💢" : computerWinTracker +="💢"
-        updateWinnerHeadline()
+        switch (playerHero.health > computerHero.health) {
+            case true:
+                const playerHeadline = document.querySelector("#playerHeadline")
+                console.log("Player wins!")
+                playerWinTracker +="💢";
+                playerHeadline.innerText = "PLAYER" + playerWinTracker;
+                break;
+            case false:
+                const computerHeadline = document.querySelector("#computerHeadline")
+                console.log("Computer wins!")
+                computerWinTracker +="💢";
+                computerHeadline.innerText = "COMPUTER" + computerWinTracker;
+                break;
+        }
     }
-}
-
-function updateWinnerHeadline() {
-    const computerHeadline = document.querySelector("#computerHeadline")
-    const playerHeadline = document.querySelector("#playerHeadline")
-    computerHeadline.innerText = `COMPUTER${computerWinTracker}`;
-    playerHeadline.innerText = `PLAYER${playerWinTracker}`;
 }
 
 function resetFightScreen() {
