@@ -6,15 +6,17 @@ body {
 body {
   text-align: center;
 }
+
 .hero,
 h1,
 h2 {
   padding: 10px 10px 10px 10px;
-  box-shadow: 5px 5px 5px rgb(174, 57, 15);
+  box-shadow: -5px 5px 5px rgb(174, 57, 15);
   min-width: 1px;
   box-sizing: border-box;
   margin: 0%;
 }
+
 h1,
 h2 {
   font-style: italic;
@@ -44,13 +46,15 @@ canvas {
   right: 0px;
   z-index: -2;
 }
+
 #fs-player img {
   padding: 10px 10px 10px 10px;
-  box-shadow: 5px 5px 5px rgb(174, 57, 15);
+  box-shadow: -5px 5px 5px rgb(174, 57, 15);
   min-width: 1px;
   box-sizing: border-box;
   margin: 0%;
 }
+
 #fs-computer img {
   padding: 10px 10px 10px 10px;
   box-shadow: 5px 5px 5px rgb(174, 57, 15);
