@@ -27,6 +27,13 @@ h2 {
   padding: auto;
 }
 #combat-log {
+    vertical-align: top;
+}
+
+#fight-btn, #reset-btn, .hero  {
+    cursor: pointer;  
+}
+
   vertical-align: top;
 }
 h3 {
