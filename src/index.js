@@ -23,14 +23,6 @@ async function retrieveHero(numberOfHeroes) {
         const resolved = await promise.json();
         const heroString = await resolved.contents;
         const heroObject = await JSON.parse(heroString);
-        const powerStats = heroObject.powerstats
-
-        // Looks at all hero powerstats and replaces any blank values with a preset default, 25.
-        Object.keys(powerStats).forEach(key => {
-            if (powerStats[key] === "null") {
-                powerStats[key] = 25;
-            }
-        })
         createCombatStats(heroObject);
 
     }
@@ -45,6 +37,13 @@ async function retrieveHero(numberOfHeroes) {
 
 // Calculate new stats that were not included through the API. These will be used for the combat function.
 function createCombatStats(heroObject) {
+    const powerStats = heroObject.powerstats
+    // Looks at all hero powerstats and replaces any blank values with a preset default, 25.
+    Object.keys(powerStats).forEach(key => {
+        if (powerStats[key] === "null") {
+            powerStats[key] = 25;
+        }
+    })
     heroObject.health = heroObject.powerstats.strength * 100;
     heroObject.timeToHit = (100 - heroObject.powerstats.speed) * 10;
     if (heroObject.timeToHit <= 175)
@@ -310,4 +309,4 @@ function resetFightScreen() {
 
 retrieveHero(5);
 
-
+main
