@@ -5,3 +5,7 @@ margin: 0;
 #combat-log {
     vertical-align: top;
 }
+
+#fight-btn, #reset-btn, .hero  {
+    cursor: pointer;  
+}

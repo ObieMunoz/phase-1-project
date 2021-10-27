@@ -32,8 +32,15 @@ async function retrieveHero(numberOfHeroes) {
             }
         })
         createCombatStats(heroObject);
+
     }
-    displayChoices(heroes)
+    displayChoices(heroes);
+    
+
+    // let chooseCharAudio = new Audio('chooseyourcharacter.mp3');
+    // chooseCharAudio.play();
+    //above code wont work due to browsers not allowing autoplay sounds, needs an event to be triggered(cant be a mouse over)
+
 }
 
 // Calculate new stats that were not included through the API. These will be used for the combat function.
@@ -66,9 +73,10 @@ function createHeroDisplay(heroes, i, newHeroObject) {
     heroDisplay.onerror = function () {
         this.src = "./assets/unnamed-hero.jpg"
         newHeroObject.image.url = "./assets/unnamed-hero.jpg"
-        console.log("Image not found for", newHeroObject.name)
+        console.log("Image not found for", newHeroObject.name);
     };
     return heroDisplay;
+    
 }
 
 function selectHero(newHeroObject) {
@@ -104,6 +112,14 @@ function setupFight() {
     resetButton.innerText = "Reset";
     resetButton.addEventListener("click", resetFightScreen);
     fightScreen.prepend(fightButton, resetButton, mkElement("br"));
+
+
+     let roundOneAudio = new Audio('Round_1_Fight.mp3');
+      roundOneAudio.play();
+
+    // let foeHasAppeared = new Audio('Foe_Has_Appeared.mp3');
+    //     foeHasAppeared.play();
+
 }
 
 function createPlayerBox(playerBox) {
@@ -203,7 +219,7 @@ function playerAttack() {
 
     console.log(`${playerHero.name} hits ${computerHero.name}!`)
     console.log(`${computerHero.name} has ${computerHero.health} health left!`)
-
+    
     determineWinner();
 }
 
@@ -228,6 +244,10 @@ function computerAttack() {
 }
 
 function determineWinner() {
+
+     let fightAudio = new Audio('fightsound.mp3');
+        fightAudio.play();
+
     if (playerHero.health <= 0 || computerHero.health <= 0) {
         combatInProgress = false;
         clearInterval(playerFighting)
@@ -237,6 +257,19 @@ function determineWinner() {
                 const playerHeadline = document.querySelector("#playerHeadline")
                 console.log("Player wins!")
                 playerWinTracker +="💢";
+
+
+                setTimeout(function(){confetti.start();},5000);
+                // setTimeout(function(){confetti.stop();},5000);
+                let victoryAudio = new Audio('victorysong.mp3');
+                // victoryAudio.play();
+                setTimeout(function() {victoryAudio.play();},5000);
+                setTimeout(function(){confetti.stop();},10000);
+                
+                // const fightScreen = document.querySelector('#fight-screen');
+                // fightScreen.innerHTML= `<h1>PLAYER WINS!</h1>`
+
+                
                 playerHeadline.innerText = "PLAYER" + playerWinTracker;
                 const spanComputerHealth = document.querySelector("#spanComputerHealthS")
                 spanComputerHealth.innerText = "KIA";
@@ -246,6 +279,12 @@ function determineWinner() {
                 const computerHeadline = document.querySelector("#computerHeadline")
                 console.log("Computer wins!")
                 computerWinTracker +="💢";
+                
+                let defeatedAudio = new Audio('defeatedsmashbros.mp3');
+                // audio.play();
+                setTimeout(function() {defeatedAudio.play();},5000);
+
+                
                 computerHeadline.innerText = "COMPUTER" + computerWinTracker;
                 const spanPlayerHealth = document.querySelector("#spanPlayerHealthS")
                 spanPlayerHealth.innerText = "KIA";
@@ -270,3 +309,5 @@ function resetFightScreen() {
 }
 
 retrieveHero(5);
+
+
