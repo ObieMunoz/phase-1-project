@@ -96,21 +96,16 @@ function setupFight() {
     let playerBox = document.querySelector("#fs-player")
     let computerBox = document.querySelector("#fs-computer")
     let fightScreen = document.querySelector("#fight-screen")
+
     const combatLog = document.querySelector("#combat-log")
     startScreen.style.display = "none"
     combatLog.style.display = "inline-block"
-    // set the background-image for combatLog to scroll-2.png
     combatLog.style.backgroundImage = "url('./assets/scroll-2.png')"
-    // set the combatLog size to be the same as the fightScreen
     combatLog.style.width = "500px"
     combatLog.style.height = "600px"
-    // set the combatLog to scroll to the bottom
     combatLog.scrollTop = combatLog.scrollHeight;
-
-    // fill the entire combatLog div with the background-image
     combatLog.style.backgroundSize = "cover"
 
-    // create a new div within the combat log div
     const logContainer = mkElement("div")
     logContainer.className = "log-container"
     logContainer.style.width = "100%"
@@ -175,7 +170,6 @@ function createPlayerBox(playerBox) {
 }
 
 function createComputerBox(computerBox) {
-    // appearSound.play();
     computerBox.style.display = "inline-block"
     const computerHeadline = mkElement("h1");
     const computerHeroName = mkElement("h2");
