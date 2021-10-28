@@ -99,6 +99,27 @@ function setupFight() {
     const combatLog = document.querySelector("#combat-log")
     startScreen.style.display = "none"
     combatLog.style.display = "inline-block"
+    // set the background-image for combatLog to scroll-2.png
+    combatLog.style.backgroundImage = "url('./assets/scroll-2.png')"
+    // set the combatLog size to be the same as the fightScreen
+    combatLog.style.width = "500px"
+    combatLog.style.height = "600px"
+    // set the combatLog to scroll to the bottom
+    combatLog.scrollTop = combatLog.scrollHeight;
+
+    // fill the entire combatLog div with the background-image
+    combatLog.style.backgroundSize = "cover"
+
+    // create a new div within the combat log div
+    const logContainer = mkElement("div")
+    logContainer.className = "log-container"
+    logContainer.style.width = "100%"
+    logContainer.style.height = "100%"
+    logContainer.style.position = "relative"
+    logContainer.style.top = "100px"
+    logContainer.style.maxHeight = "350px"
+    logContainer.style.overflow = "hidden"
+    combatLog.append(logContainer)
 
     createPlayerBox(playerBox);
     createComputerBox(computerBox);
@@ -112,6 +133,7 @@ function setupFight() {
     resetButton.id = "reset-btn";
     resetButton.innerText = "Reset";
     resetButton.addEventListener("click", resetFightScreen);
+
     fightScreen.prepend(fightButton, resetButton, mkElement("br"));
     fightSound.play();
 }
@@ -203,7 +225,7 @@ function playerAttack() {
     computerHero.health -= playerHero.damagePerHit;
     spanComputerHealth.innerText = computerHero.health;
 
-    const combatLog = document.querySelector("#combat-log")
+    const logContainer = document.querySelector(".log-container")
 
     const newCombatItem1 = mkElement("p")
     const newCombatItem2 = mkElement("p")
@@ -211,7 +233,7 @@ function playerAttack() {
     newCombatItem1.innerHTML = `<strong>${playerHero.name}</strong> hits <strong>${computerHero.name}</strong>!`
     newCombatItem2.innerHTML = `<strong>${computerHero.name}</strong> has ${computerHero.health} health left!`
 
-    combatLog.prepend(newCombatItem2, newCombatItem1)
+    logContainer.prepend(newCombatItem2, newCombatItem1)
 
     console.log(`${playerHero.name} hits ${computerHero.name}!`)
     console.log(`${computerHero.name} has ${computerHero.health} health left!`)
@@ -224,14 +246,14 @@ function computerAttack() {
     const spanPlayerHealth = document.querySelector("#spanPlayerHealthS")
     playerHero.health -= computerHero.damagePerHit
     spanPlayerHealth.innerText = playerHero.health;
-    const combatLog = document.querySelector("#combat-log")
+    const logContainer = document.querySelector(".log-container")
     const newCombatItem1 = mkElement("p")
     const newCombatItem2 = mkElement("p")
 
     newCombatItem1.innerHTML = `<strong>${computerHero.name}</strong> hits <strong>${playerHero.name}</strong>!`
     newCombatItem2.innerHTML = `<strong>${playerHero.name}</strong> has ${playerHero.health} health left!`
 
-    combatLog.prepend(newCombatItem2, newCombatItem1)
+    logContainer.prepend(newCombatItem2, newCombatItem1)
 
     console.log(`${computerHero.name} hits ${playerHero.name}!`)
     console.log(`${playerHero.name} has ${playerHero.health} health left!`)
@@ -240,10 +262,6 @@ function computerAttack() {
 }
 
 function determineWinner() {
-
-    //  let fightAudio = new Audio('./assets/sounds/fightsound.mp3');
-    //     fightAudio.play();
-
     if (playerHero.health <= 0 || computerHero.health <= 0) {
         combatInProgress = false;
         clearInterval(playerFighting)
@@ -253,28 +271,23 @@ function determineWinner() {
                 const playerHeadline = document.querySelector("#playerHeadline")
                 console.log("Player wins!")
                 playerWinTracker +="💢";
-
-
-                setTimeout(function(){confetti.start();},5000);
-                setTimeout(function(){confetti.stop();},10000);
-                victorySound.play();
-
                 playerHeadline.innerText = "PLAYER" + playerWinTracker;
                 const spanComputerHealth = document.querySelector("#spanComputerHealthS")
                 spanComputerHealth.innerText = "KIA";
                 spanComputerHealth.style.color = "red";
+                setTimeout(function(){confetti.start();},5000);
+                setTimeout(function(){confetti.stop();},10000);
+                victorySound.play();
                 break;
             case false:
                 const computerHeadline = document.querySelector("#computerHeadline")
                 console.log("Computer wins!")
                 computerWinTracker +="💢";
-                
-                defeatSound.play()
-                
                 computerHeadline.innerText = "COMPUTER" + computerWinTracker;
                 const spanPlayerHealth = document.querySelector("#spanPlayerHealthS")
                 spanPlayerHealth.innerText = "KIA";
                 spanPlayerHealth.style.color = "red";
+                defeatSound.play()
                 break;
         }
     }
@@ -285,7 +298,8 @@ function resetFightScreen() {
     clearInterval(computerFighting)
     let fightScreen = document.querySelector("#fight-screen")
     let startScreen = document.querySelector("#start-screen")
-    fightScreen.innerHTML = `<div id="fs-player"></div>
+    fightScreen.innerHTML = `<img src="./assets/vs.png" alt="versus" id="vs-logo">
+    <div id="fs-player"></div>
     <div id="fs-computer"></div>
     <div id="combat-log"></div>
   </div>`
