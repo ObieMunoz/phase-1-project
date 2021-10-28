@@ -124,6 +124,12 @@ function setupFight() {
     createPlayerBox(playerBox);
     createComputerBox(computerBox);
 
+    const vsLogo = mkElement("img")
+    vsLogo.src = "./assets/vs.png"
+    fightScreen.insertBefore(vsLogo, computerBox)
+    vsLogo.style.position = "relative"
+    vsLogo.style.bottom = "600px"
+
     const fightButton = mkElement("button");
     fightButton.id = "fight-btn";
     fightButton.innerText = "Fight!";

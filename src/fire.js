@@ -10,8 +10,7 @@ particles = {},
   particleNum = 30;
 
 document.body.prepend(canvas);
-canvas.style.position = 'fixed';
-canvas.style.top = "-500px";
+
 function particle() {
   this.x = Math.random() * canvas.width;
   this.y = Math.random() * canvas.height/3+h*2/3-100;
