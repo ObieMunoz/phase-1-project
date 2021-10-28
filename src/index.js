@@ -298,8 +298,7 @@ function resetFightScreen() {
     clearInterval(computerFighting)
     let fightScreen = document.querySelector("#fight-screen")
     let startScreen = document.querySelector("#start-screen")
-    fightScreen.innerHTML = `<img src="./assets/vs.png" alt="versus" id="vs-logo">
-    <div id="fs-player"></div>
+    fightScreen.innerHTML = `<div id="fs-player"></div>
     <div id="fs-computer"></div>
     <div id="combat-log"></div>
   </div>`
