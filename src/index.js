@@ -1,4 +1,3 @@
-const heroes = []
 let fightButton;
 let resetButton;
 let spanPlayerHealth;
@@ -10,7 +9,7 @@ let playerFighting;
 let computerFighting;
 let playerWinTracker = " ";
 let computerWinTracker = " ";
-let chooseHasNotPlayed = true;
+let databaseConnected = false;
 const fightSound = document.querySelector("#audio-fight")
 const chooseSound = document.querySelector("#audio-choose")
 const defeatSound = document.querySelector("#audio-defeat")
@@ -19,7 +18,8 @@ const appearSound = document.querySelector("#audio-appear")
 const playerHitSound = document.querySelector("#audio-playerhit")
 const computerHitSound = document.querySelector("#audio-computerhit")
 const botGamingLogo = document.querySelector("#bot-logo")
-
+const score = []
+const heroes = []
 botGamingLogo.addEventListener("click", () => {
     alert("This game was created by Obie Munoz, Terence Stephens and Brandi Ude.")
 })
@@ -283,6 +283,8 @@ function determineWinner() {
                 setTimeout(function(){confetti.start();},5000);
                 setTimeout(function(){confetti.stop();},10000);
                 victorySound.play();
+                score.push("💢")
+                if (databaseConnected) sendScoresToDatabase();
                 break;
             case false:
                 const computerHeadline = document.querySelector("#computerHeadline")
@@ -293,9 +295,23 @@ function determineWinner() {
                 spanPlayerHealth.innerText = "KIA";
                 spanPlayerHealth.style.color = "red";
                 defeatSound.play()
+                score.push("❌")
+                if (databaseConnected) sendScoresToDatabase();
                 break;
         }
     }
+}
+
+function sendScoresToDatabase() {
+    fetch("http://localhost:3000/scores/1", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            score: score
+        })})
 }
 
 function resetFightScreen() {
@@ -313,4 +329,30 @@ function resetFightScreen() {
     chooseSound.play();
 }
 
+function loadPreviousScores() {
+    const lastScore = document.querySelector("#last-score")
+    fetch('http://localhost:3000/scores')
+        .then(response => response.json())
+        .then(data => data[data.length - 1])
+        .then(score => {
+            console.log(score.score);
+            const scoreCard = document.createElement("span")
+            scoreCard.innerText = score.score.join("");
+            scoreCard.style.fontSize = "45px"
+            lastScore.append(document.createElement("br"), scoreCard)
+            databaseConnected = true;
+            lastScore.style.display = "block"
+            // lastScore.style.display = "block"
+        })
+        // if response is not ok, throw error
+        .catch(error => {
+            console.log(error);
+            console.log('No database active: Removing Previous Score box.')
+            databaseConnected = false;
+            lastScore.remove();
+        })
+
+}
+
+loadPreviousScores()
 retrieveHero(5);
