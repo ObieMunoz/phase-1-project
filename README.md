@@ -1,7 +1,7 @@
 ![superhero-fight-banner](./assets/superhero-fight-banner.png)
 
 # Phase 1 Project -- Superhero Fight!
-## LIVE LINK: https://obiemunoz.github.io/phase-1-project/  ** BEST VIEWED ON A PC IN FULL-SCREEN MODE. RECOMMENDED 1080P OR BETTER RESOLUTION **
+## LIVE LINK: https://obiemunoz.github.io/phase-1-project/  ** BEST VIEWED ON A PC IN FULL-SCREEN MODE **
 ## Primary Responsibilities, although each member contributed in each area:
 - Obie Munoz - JavaScript
 - Terence Stephens - Graphics/CSS
