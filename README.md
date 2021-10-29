@@ -37,8 +37,11 @@ This project was completed approaching the end of Phase 1 in Flatiron School's F
 All project requirements have been fulfilled and exceeded.
 
 ## Images
+### JavaScript Plan:
 ![javascript-plan](./misc-project-files/javascript-plan.png)
+### Welcome Screen
 ![superhero-fight-1](./misc-project-files/superhero-fight-1.png)
+### Fight Screen
 ![superhero-fight-2](./misc-project-files/superhero-fight-2.jpg)
 
 This project was brought to you by Obie Munoz, Terence Stephens, and Brandi Ude. We hope you enjoy playing Superhero Fight.
