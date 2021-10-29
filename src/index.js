@@ -312,6 +312,7 @@ function sendScoresToDatabase() {
         body: JSON.stringify({
             score: score
         })})
+        .catch(error => console.log(error))
 }
 
 function resetFightScreen() {
