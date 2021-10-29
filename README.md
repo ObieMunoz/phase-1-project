@@ -1,11 +1,13 @@
+![superhero-fight-banner](./assets/superhero-fight-banner.png)
+
 # Phase 1 Project -- Superhero Fight!
-### LIVE LINK: https://obiemunoz.github.io/phase-1-project/  ** BEST VIEWED ON A PC IN FULL-SCREEN MODE. RECOMMENDED 1080P OR BETTER RESOLUTION **
-### Primary Responsibilities, although each member contributed in each area:
+## LIVE LINK: https://obiemunoz.github.io/phase-1-project/  ** BEST VIEWED ON A PC IN FULL-SCREEN MODE. RECOMMENDED 1080P OR BETTER RESOLUTION **
+## Primary Responsibilities, although each member contributed in each area:
 - Obie Munoz - JavaScript
 - Terence Stephens - Graphics/CSS
 - Brandi Ude - Graphics/Sounds
 
-### Project Description
+## Project Description
 Superhero Fight is a simulated fighting game. While loading, the application will access the Superhero API (https://superheroapi.com/index.html) and request information for five (5) random heroes. At the time of this writing, the API has data for 731 heroes. Information returned from the database for each hero includes, but is not limited to: Name, intelligence, strength, speed, durability, power, combat, an image, and other information related to the hero.
 
 In addition to connecting to the API during loading, a connection is also attempted with a local database to retrieve and display the most recent score sheet. If a connection is successful, a previous score card will be displayed.
@@ -23,7 +25,7 @@ Once combat begins, two interval timers set to each respective hero's timeToHit 
 
 After each interval of damage completed, a function is called to assess whether or not either hero has been defeated. If a winner has been determined and if a local database connection exists, the updated score will be sent via PATCH request to the local json-server.
 
-### Project Requirements
+## Project Requirements
 This project was completed approaching the end of Phase 1 in Flatiron School's Full-time Software Engineering course. The project requirements were the following:
 - The application must be a HTML/CSS/JS frontend that accesses data from a public API.
 - The entire application must run on a single page with no redirects.
