@@ -109,3 +109,19 @@ canvas {
     bottom: 0;
     right: 0;
 }
+
+#starter-choices img {
+  margin: 10px;
+}
+
+#starter-choices img:hover {
+  transform: scale(1.5);
+}
+
+#about {
+  display: none;
+}
+
+#bot-logo:hover~#about{
+  display: block;
+  }

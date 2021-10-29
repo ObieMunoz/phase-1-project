@@ -17,12 +17,8 @@ const victorySound = document.querySelector("#audio-victory")
 const appearSound = document.querySelector("#audio-appear")
 const playerHitSound = document.querySelector("#audio-playerhit")
 const computerHitSound = document.querySelector("#audio-computerhit")
-const botGamingLogo = document.querySelector("#bot-logo")
 const score = []
 const heroes = []
-botGamingLogo.addEventListener("click", () => {
-    alert("This game was created by Obie Munoz, Terence Stephens and Brandi Ude.")
-})
 
 function mkElement(element) {
     return document.createElement(element)
@@ -343,9 +339,7 @@ function loadPreviousScores() {
             lastScore.append(document.createElement("br"), scoreCard)
             databaseConnected = true;
             lastScore.style.display = "block"
-            // lastScore.style.display = "block"
         })
-        // if response is not ok, throw error
         .catch(error => {
             console.log(error);
             console.log('No database active: Removing Previous Score box.')
