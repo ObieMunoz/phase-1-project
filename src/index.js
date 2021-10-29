@@ -232,7 +232,7 @@ function playerAttack() {
     const newCombatItem2 = mkElement("p")
 
     newCombatItem1.innerHTML = `<strong>${playerHero.name}</strong> hits <strong>${computerHero.name}</strong>!`
-    newCombatItem2.innerHTML = `<strong>${computerHero.name}</strong> has ${computerHero.health} health left!`
+    computerHero.health > 0 ? newCombatItem2.innerHTML = `<strong>${computerHero.name}</strong> has ${computerHero.health} health left!` : newCombatItem2.innerHTML = `<strong>${computerHero.name}</strong> has fallen in battle!`
 
     logContainer.prepend(newCombatItem2, newCombatItem1)
 
@@ -252,7 +252,7 @@ function computerAttack() {
     const newCombatItem2 = mkElement("p")
 
     newCombatItem1.innerHTML = `<strong>${computerHero.name}</strong> hits <strong>${playerHero.name}</strong>!`
-    newCombatItem2.innerHTML = `<strong>${playerHero.name}</strong> has ${playerHero.health} health left!`
+    playerHero.health > 0 ? newCombatItem2.innerHTML = `<strong>${playerHero.name}</strong> has ${playerHero.health} health left!` : newCombatItem2.innerHTML = `<strong>${playerHero.name}</strong> has fallen in battle!`
 
     logContainer.prepend(newCombatItem2, newCombatItem1)
 
