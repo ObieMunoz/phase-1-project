@@ -9,7 +9,7 @@
 
 ## Project Description
 Superhero Fight is a simulated fighting game. While loading, the application will access the Superhero API (https://superheroapi.com/index.html) and request information for five (5) random heroes. At the time of this writing, the API has data for 731 heroes. Information returned from the database for each hero includes, but is not limited to: Name, intelligence, strength, speed, durability, power, combat, an image, and other information related to the hero.
-
+ 
 In addition to connecting to the API during loading, a connection is also attempted with a local database to retrieve and display the most recent score sheet. If a connection is successful, a previous score card will be displayed.
 
 For the purposes of this application, we will only make use of the name, strength, power, and combat statistics, as well as the hero images, that have been received from the API.
