@@ -1,7 +1,6 @@
 ![superhero-fight-banner](./assets/superhero-fight-banner.png)
 
 # Phase 1 Project -- Superhero Fight!
-## LIVE LINK: https://obiemunoz.github.io/superhero-fight/  ** Not Mobile Compatible **
 ## Primary Responsibilities, although each member contributed in each area:
 - Obie Munoz - JavaScript
 - Terence Stephens - Graphics/CSS
